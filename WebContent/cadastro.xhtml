@@ -1,0 +1,48 @@
+<html xmlns
+	="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition template="/_template.xhtml">
+	<ui:define name="corpo">
+	<h2>Cadastro no Sistema</h2>
+	<h:form id="formCadastro">
+	<h:messages styleClass="erros"></h:messages>
+		<h:panelGrid columns ="2" styleClass="campos">
+			<h:outputLabel value ="Login:" for="login" />
+			<h:inputText id ="login"
+			value="#{cadastraLoginBean.usuario.login}" >
+				<f:validator validatorId="nomeJaExistente"/>
+			</h:inputText>
+			<h:outputLabel value ="Senha:" for="senha" />
+			<h:inputSecret id ="senha"
+			value="#{cadastraLoginBean.usuario.senha}" />
+			<h:outputLabel value="Confirmar senha" for="confirmaSenha"/>
+			<h:inputSecret id="confirmasenha" 
+			value="#{cadastraLoginBean.confirmaSenha}"/>
+			<h:commandButton value="Cadastrar"
+				action="#{cadastraLoginBean.grava}" 
+			rendered="#{empty cadastraLoginBean.usuario.id}"/>
+			</h:panelGrid>
+	</h:form>
+	<h:form rendered="#{not empty cadastraLoginBean.usuario.id}">
+	<h2>Dados do Usuario</h2>
+	<h:dataTable value="#{cadastraLoginBean.usuario}" styleClass="dados" rowClasses="impar, par">
+	<h:column>
+		<f:facet name="header">Login</f:facet>
+		#{cadastraLoginBean.usuario.login}
+	</h:column>
+	<h:column>
+		<f:facet name="header">Senha</f:facet>
+		#{cadastraLoginBean.usuario.senha}
+	</h:column>
+	</h:dataTable>
+	<h:commandButton value="[OK]" action="#{cadastraLoginBean.confirmaCadastro}"/>
+	</h:form>
+			</ui:define>	
+			
+		</ui:composition>
+			
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/_template.xhtml">
+		<ui:define name="corpo">
+		<h:form id="pesquisa">
+		<fieldset>
+		<legend>Pesquisa de Nota Fiscal</legend>
+		<p:panelGrid columns="3">
+		<p:outputLabel value="Nota fiscal"/>
+		<p:selectOneMenu value="#{itemBean.notaFiscal.id}">
+			<f:selectItem itemLabel="Escolha a nota" itemValue="" noSelectionOption="true"/>
+			<f:selectItems value="#{itemBean.notas}" var="notaFiscal" itemLabel="#{notaFiscal.cnpj}" 
+			itemValue="#{notaFiscal.id}"/>
+		</p:selectOneMenu>
+		<p:commandButton value="Pesquisar" action="#{itemBean.lista}" ajax="false" icon="ui-icon-search" />
+		</p:panelGrid>
+		</fieldset>
+	</h:form>
+
+		<p:dataTable value="#{itemBean.itens}" var="item" rendered="#{itemBean.itens != null}"
+		emptyMessage="Nenhum item encontrado">
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Nome do Produto"/>
+				</f:facet>
+				#{item.produto.nome}
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Quantidade"/>				
+				</f:facet>
+				#{item.quantidade}
+			
+			</p:column>
+			<p:column>
+				<f:facet name="header">Valor Unitário</f:facet>
+				<h:outputText value="#{item.valorUnitario}">
+					<f:convertNumber type="currency" currencySymbol="R$ " 
+					locale="pt_BR"/>
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header">Total</f:facet>
+				<h:outputText value="#{item.total}">
+				<f:convertNumber type="currency" currencySymbol="R$ " 
+				locale="pt_BR"/>
+				</h:outputText>
+			</p:column>
+		</p:dataTable>
+			
+		</ui:define>
+	</ui:composition>
+	
+	
+	
+</html>
